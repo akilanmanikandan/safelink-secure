@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeLink - Secure Data Sharing</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Login/Register Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>SafeLink</h2>
+            </div>
+            <div class="modal-body">
+                <div id="loginForm">
+                    <div class="form-group">
+                        <label>Username:</label>
+                        <input type="text" id="loginUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password:</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <div id="otpSection" style="display: none;">
+                        <div class="form-group">
+                            <label>OTP Code:</label>
+                            <input type="text" id="otpCode" placeholder="Enter OTP from email">
+                        </div>
+                        <p class="info-text">Thanks for trusting us. Please check your email for the OTP code.</p>
+                    </div>
+                    <div class="button-group">
+                        <button id="loginButton" class="btn btn-primary">Login</button>
+                        <button onclick="showRegisterForm()" class="btn btn-success">Register</button>
+                    </div>
+                </div>
+                
+                <div id="registerForm" style="display: none;">
+                    <div class="form-group">
+                        <label>Username:</label>
+                        <input type="text" id="regUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password:</label>
+                        <input type="password" id="regPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email: *</label>
+                        <input type="email" id="regEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Role:</label>
+                        <select id="regRole">
+                            <option value="admin">Admin</option>
+                            <option value="manager">Manager</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Department:</label>
+                        <input type="text" id="regDepartment" required>
+                    </div>
+                    <p class="info-text">Multi-Factor Authentication (MFA) enabled</p>
+                    <div class="button-group">
+                        <button onclick="handleRegister()" class="btn btn-primary">Register</button>
+                        <button onclick="showLoginForm()" class="btn btn-cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="mainApp" style="display: none;">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <h1 id="dashboardTitle">Dashboard</h1>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <span id="aiWarningText" style="display: none; color: #94a3b8; font-size: 13px; font-weight: 500;">
+                    Your actions are monitored by a secure AI integrated monitoring system, so use with caution
+                </span>
+                <button onclick="handleLogout()" class="btn btn-logout">Logout</button>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('myFiles')" id="myFilesTab">My Files</button>
+            <button class="tab-btn" onclick="showTab('availableFiles')" id="availableFilesTab">Available Files</button>
+            <button class="tab-btn" onclick="showTab('pendingRequests')" id="pendingRequestsTab" style="display: none;">Pending Requests</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- My Files Tab -->
+            <div id="myFilesTabContent" class="tab-pane active">
+                <div class="action-bar">
+                    <button onclick="showUploadDialog()" class="btn btn-primary">Upload File</button>
+                    <button onclick="deleteSelectedFile()" class="btn btn-danger">Delete File</button>
+                    <button onclick="viewSelectedPolicy()" class="btn btn-secondary">View Policy</button>
+                </div>
+                <table id="myFilesTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>File ID</th>
+                            <th>File Name</th>
+                            <th>Size</th>
+                            <th>Owner</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Available Files Tab -->
+            <div id="availableFilesTabContent" class="tab-pane">
+                <div class="action-bar">
+                    <button onclick="requestAccessToSelected()" class="btn btn-primary">Request Access</button>
+                    <button onclick="downloadSelectedFile()" class="btn btn-success">Decrypt & Download</button>
+                </div>
+                <table id="availableFilesTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>File ID</th>
+                            <th>File Name</th>
+                            <th>Size</th>
+                            <th>Owner</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Pending Requests Tab -->
+            <div id="pendingRequestsTabContent" class="tab-pane">
+                <div class="action-bar">
+                    <button onclick="approveSelectedRequest()" class="btn btn-success">Approve</button>
+                    <button onclick="denySelectedRequest()" class="btn btn-danger">Deny</button>
+                    <button onclick="refreshPendingRequests()" class="btn btn-secondary">Refresh</button>
+                </div>
+                <table id="pendingRequestsTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Requester</th>
+                            <th>File ID</th>
+                            <th>File Name</th>
+                            <th>Request Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- AI Chatbot Icon (Managers/Admins only) -->
+        <div id="aiChatIcon" style="display: none; position: fixed; bottom: 30px; left: 30px; z-index: 1000; background: #1e3a8a; color: white; border-radius: 50%; width: 60px; height: 60px; text-align: center; line-height: 60px; font-size: 30px; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.2); transition: transform 0.3s;" onclick="toggleAiChat()">
+            🤖
+        </div>
+
+        <!-- AI Chat Window -->
+        <div id="aiChatWindow" style="display: none; position: fixed; bottom: 100px; left: 30px; z-index: 1000; width: 340px; background: white; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); border: 1px solid rgba(0,0,0,0.1); overflow: hidden; font-family: 'Outfit', sans-serif;">
+            <div id="aiChatHeader" style="background: #1e3a8a; padding: 15px 20px; color: white; font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
+                <span style="display: flex; align-items: center; gap: 10px;">
+                    <span id="aiChatHeaderIcon">🤖</span> AI Monitoring System
+                </span>
+                <button onclick="toggleAiChat()" style="background: none; border: none; color: white; cursor: pointer; font-size: 16px;">✕</button>
+            </div>
+            <div id="aiChatBody" style="height: 280px; padding: 18px; overflow-y: auto; background: #f8fafc; font-size: 14px; line-height: 1.5; display: flex; flex-direction: column;">
+            </div>
+            <div id="aiChatInput" style="padding: 15px; border-top: 1px solid #e2e8f0; background: white;">
+                <div id="chatButtons" style="display: flex; flex-direction: column; gap: 8px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload File Dialog -->
+    <div id="uploadModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Upload File</h2>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Select File:</label>
+                    <input type="file" id="fileInput">
+                </div>
+                <div class="form-group">
+                    <label>Key Expiry:</label>
+                    <div class="expiry-input">
+                        <input type="number" id="expiryValue" value="24" min="0">
+                        <select id="expiryUnit">
+                            <option value="seconds">Seconds</option>
+                            <option value="minutes">Minutes</option>
+                            <option value="hours" selected>Hours</option>
+                            <option value="days">Days</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Required Role:</label>
+                    <select id="requiredRole">
+                        <option value="admin">Admin</option>
+                        <option value="manager">Manager</option>
+                        <option value="user">User</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Required Department (optional):</label>
+                    <input type="text" id="requiredDepartment">
+                </div>
+                <div class="button-group">
+                    <button onclick="handleUpload()" class="btn btn-primary">Upload</button>
+                    <button onclick="closeUploadDialog()" class="btn btn-cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expiry Dialog for Approvals -->
+    <div id="expiryModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Set Access Expiry</h2>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Expiry:</label>
+                    <div class="expiry-input">
+                        <input type="number" id="approvalExpiryValue" value="24" min="0">
+                        <select id="approvalExpiryUnit">
+                            <option value="seconds">Seconds</option>
+                            <option value="minutes">Minutes</option>
+                            <option value="hours" selected>Hours</option>
+                            <option value="days">Days</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button onclick="confirmApproval()" class="btn btn-primary">Approve</button>
+                    <button onclick="closeExpiryDialog()" class="btn btn-cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

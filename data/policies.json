@@ -1,0 +1,89 @@
+[
+  {
+    "resourceId": "FILE_1774187832590_7030",
+    "requiredAttributes": [{
+      "name": "role",
+      "value": "user"
+    }],
+    "validFrom": "2026-04-10 23:11:18",
+    "revoked": false
+  },
+  {
+    "resourceId": "FILE_1775843443798_5230",
+    "requiredAttributes": [
+      {
+        "name": "role",
+        "value": "manager"
+      },
+      {
+        "name": "department",
+        "value": "CSE"
+      }
+    ],
+    "validFrom": "2026-04-10 23:20:43",
+    "revoked": false
+  },
+  {
+    "resourceId": "FILE_1774187766102_6471",
+    "requiredAttributes": [{
+      "name": "role",
+      "value": "user"
+    }],
+    "validFrom": "2026-04-10 23:11:18",
+    "revoked": false
+  },
+  {
+    "resourceId": "FILE_1774187796094_6535",
+    "requiredAttributes": [{
+      "name": "role",
+      "value": "user"
+    }],
+    "validFrom": "2026-04-10 23:11:18",
+    "revoked": false
+  },
+  {
+    "resourceId": "FILE_1774187781694_5756",
+    "requiredAttributes": [{
+      "name": "role",
+      "value": "user"
+    }],
+    "validFrom": "2026-04-10 23:11:18",
+    "revoked": false
+  },
+  {
+    "resourceId": "FILE_1774187856489_6630",
+    "requiredAttributes": [{
+      "name": "role",
+      "value": "user"
+    }],
+    "validFrom": "2026-04-10 23:11:18",
+    "revoked": false
+  },
+  {
+    "resourceId": "FILE_1774187839777_6782",
+    "requiredAttributes": [{
+      "name": "role",
+      "value": "user"
+    }],
+    "validFrom": "2026-04-10 23:11:18",
+    "revoked": false
+  },
+  {
+    "resourceId": "FILE_1774187737960_8971",
+    "requiredAttributes": [{
+      "name": "role",
+      "value": "user"
+    }],
+    "validFrom": "2026-04-10 23:11:18",
+    "revoked": false
+  },
+  {
+    "resourceId": "FILE_1774187750778_2472",
+    "requiredAttributes": [{
+      "name": "role",
+      "value": "manager"
+    }],
+    "validFrom": "2026-04-10 23:11:18",
+    "revoked": false
+  }
+]

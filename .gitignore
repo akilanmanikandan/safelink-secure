@@ -1,0 +1,34 @@
+# Compiled class files
+*.class
+target/
+bin/
+out/
+
+# Log files
+*.log
+audit.log
+
+# Encrypted files directory
+encrypted_files/
+decrypted_*
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Temporary files
+*.tmp
+*.bak

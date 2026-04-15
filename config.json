@@ -1,0 +1,63 @@
+{
+  "email": {
+    "enabled": true,
+    "smtp": {
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "auth": true,
+      "starttls": {
+        "enable": true
+      }
+    },
+    "from": {
+      "address": "securedata.safelink@gmail.com",
+      "password": "rouc ubfa ercv mrbw",
+      "name": "Safelink Secure Data Sharing Systems"
+    },
+    "admin": {
+      "address": "akilchn2004@gmail.com",
+      "alert_template": {
+        "subject": "ALERT: Suspicious Behavior Detected!",
+        "body": {
+          "template": "Suspicious behavior has been detected in Safelink dashboard by our Safelink BOT.\n\nDetails:\n- Username: {USERNAME}\n- User ID: {USER_ID}\n- Role: {ROLE}\n- ML Score: {ML_SCORE}\n- Risk Score: {RISK_SCORE}\n\nReasons:\n{REASONS}\n\nPlease review the logs for more information."
+        }
+      }
+    }
+  },
+  "ai_monitoring": {
+    "icon": "🤖",
+    "chat_color": "#1e3a8a",
+    "language": "en"
+  },
+  "otp": {
+    "length": 6,
+    "validity": {
+      "minutes": 5
+    },
+    "email": {
+      "subject": "SafeLink OTP Code",
+      "body": {
+        "template": "Dear User,\n\nYour SafeLink authentication code is: {OTP}\n\nThis code will expire in {MINUTES} minutes.\n\nFor security reasons, do not share this code with anyone.\n\nIf you did not request this code, please contact support immediately.\n\nBest regards,\nSafeLink Security Team\nContact number: +91 87545 52566"
+      }
+    }
+  },
+  "mongodb": {
+    "uri": "mongodb+srv://safelink-systems:bnV60CPRBEXO3RMP@secure-data-storage.hag91qt.mongodb.net/",
+    "database": "secure_data_sharing",
+    "collections": {
+      "users": "users",
+      "sessions": "sessions",
+      "policies": "policies",
+      "access_requests": "access_requests",
+      "file_metadata": "file_metadata",
+      "keys": "keys"
+    }
+  },
+  "security": {
+    "session": {
+      "timeout": {
+        "minutes": 30
+      }
+    }
+  }
+}
