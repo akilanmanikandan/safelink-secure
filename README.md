@@ -158,6 +158,3 @@ This means the app writes new business data directly to the MongoDB Atlas cluste
 - Add automated tests for the web, storage, crypto, and ML modules.
 - Add Docker setup so both Java and Python services can start together.
 
-## Note
-
-This project is suitable for academic/demo use and learning secure file sharing concepts. Before using it in real production, review the security design, protect all secrets, use a database, enable HTTPS, and harden key storage.
