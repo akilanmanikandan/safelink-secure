@@ -37,7 +37,7 @@ public class MLMonitoringService {
     private AuditLogger auditLogger;
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String ML_API_URL = "http://localhost:5000/detect";
+    private final String ML_API_URL = "http://ml-service:5000/detect";
 
     /**
      * Checks user behavior anomalies by extracting features and calling the ML API.
